@@ -11,15 +11,17 @@ import Contact from "./pages/Contact";
 import About from "./pages/About";
 import MyProfile from "./components/core/Dashboard/MyProfile";
 import Dashboard from "./pages/Dashboard";
-import Cart from "./components/core/Dashboard/cart";
+import Cart from "./components/core/Dashboard/cart/index";
 import Privateroute from "./components/core/auth/Privateroute";
 import Error from "./pages/Error";
-import Settings from "./components/core/Dashboard/Settings";
+
+import Settings from "./components/core/Dashboard/Settings/Index";
+
 import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
 import { ACCOUNT_TYPE } from "./utils/constants";
 import MyCourses from "./components/core/Dashboard/MyCourses";
-import AddCourse from "./components/core/Dashboard/AddCourse";
-import EditCourse from "./components/core/Dashboard/EditCourse";
+import AddCourse from "./components/core/Dashboard/AddCourse/index";
+import EditCourse from "./components/core/Dashboard/EditCourse/index";
 import Catalog from "./pages/Catalog";
 import CourseDetails from "./pages/CourseDetails";
 import ViewCourse from "./pages/ViewCourse";
@@ -31,9 +33,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 
 import AdminDashboard from "./components/core/Dashboard/Admin/AdminDashboard/AdminDashboard";
-import ManageCourses from "./components/core/Dashboard/Admin/ManageCourses";
-import ManageUsers from "./components/core/Dashboard/Admin/ManageUsers";
-import ManageCategories from "./components/core/Dashboard/Admin/ManageCategories";
+import ManageCourses from "./components/core/Dashboard/Admin/ManageCourses/index";
+import ManageUsers from "./components/core/Dashboard/Admin/ManageUsers/index";
+import ManageCategories from "./components/core/Dashboard/Admin/ManageCategories/index";
 import RoleBasedRoute from "./components/core/auth/RoleBasedRoute";
 
 

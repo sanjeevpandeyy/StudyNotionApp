@@ -11,7 +11,7 @@ const ReactStars = ReactStarsModule.default;
 
 import { FaStar } from "react-icons/fa";
 
-import { apiConnector } from "../../services/apiconnector";
+import { apiConnector } from "../../services/apiConnector";
 import { ratingsEndpoints } from "../../services/api";
 
 function ReviewSlider() {

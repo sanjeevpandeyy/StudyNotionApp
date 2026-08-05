@@ -1,4 +1,4 @@
-const Category=require("../model/category"); //category because i create by mistake category before cotegry 
+const Category=require("../model/Category"); //category because i create by mistake category before cotegry 
 const Course=require("../model/Course");
 
 exports.createCategory=async(req,res)=>{

@@ -44,6 +44,7 @@ const ContactUsForm = () => {
       }
     } catch (error) {
       console.log(error);
+
       toast.error(
         error?.response?.data?.message || "Failed to send message"
       );
@@ -67,13 +68,17 @@ const ContactUsForm = () => {
 
   return (
     <form
-      className="flex flex-col gap-7"
       onSubmit={handleSubmit(submitContactForm)}
+      className="mx-auto flex w-full max-w-3xl flex-col gap-6 sm:gap-7"
     >
       {/* First & Last Name */}
-      <div className="flex flex-col gap-5 lg:flex-row">
-        <div className="flex flex-col gap-2 lg:w-[48%]">
-          <label className="label-style">First Name</label>
+      <div className="flex flex-col gap-5 lg:flex-row lg:justify-between">
+
+        {/* First Name */}
+        <div className="flex w-full flex-col gap-2 lg:w-[48%]">
+          <label className="label-style">
+            First Name <sup className="text-pink-200">*</sup>
+          </label>
 
           <input
             type="text"
@@ -91,7 +96,8 @@ const ContactUsForm = () => {
           )}
         </div>
 
-        <div className="flex flex-col gap-2 lg:w-[48%]">
+        {/* Last Name */}
+        <div className="flex w-full flex-col gap-2 lg:w-[48%]">
           <label className="label-style">Last Name</label>
 
           <input
@@ -105,14 +111,21 @@ const ContactUsForm = () => {
 
       {/* Email */}
       <div className="flex flex-col gap-2">
-        <label className="label-style">Email Address</label>
+        <label className="label-style">
+          Email Address <sup className="text-pink-200">*</sup>
+        </label>
 
         <input
           type="email"
-          placeholder="Enter email"
+          placeholder="Enter your email address"
           className="form-style"
           {...register("email", {
             required: "Email is required",
+            pattern: {
+              value:
+                /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/,
+              message: "Please enter a valid email",
+            },
           })}
         />
 
@@ -123,13 +136,16 @@ const ContactUsForm = () => {
         )}
       </div>
 
-      {/* Phone */}
+      {/* Phone Number */}
       <div className="flex flex-col gap-2">
-        <label className="label-style">Phone Number</label>
+        <label className="label-style">
+          Phone Number <sup className="text-pink-200">*</sup>
+        </label>
 
-        <div className="flex gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row">
+
           {/* Country Code */}
-          <div className="w-[180px]">
+          <div className="  w-[60%] sm:w-[180px]">
             <Controller
               name="countrycode"
               control={control}
@@ -152,7 +168,7 @@ const ContactUsForm = () => {
                       backgroundColor: "#161D29",
                       borderColor: "#2C333F",
                       minHeight: "48px",
-                      color: "#fff",
+                      width: "100%",
                       boxShadow: "none",
                     }),
                     menu: (base) => ({
@@ -184,24 +200,22 @@ const ContactUsForm = () => {
               )}
             />
           </div>
-
-          {/* Phone Number */}
-          <div className="flex-1">
-          <input
-            type="tel"
-            name="phonenumber"
-            id="phonenumber"
-            placeholder="12345 67890"
-            className="form-style"
-            maxLength={12}
-            {...register("phoneNo", {
-              required: "Please enter your Phone Number.",
-              pattern: {
-                value: /^[0-9]{10,12}$/,
-                message: "Invalid Phone Number",
-              },
-            })}
-          />
+                    {/* Phone Number Input */}
+                    <div className="w-full flex-1">
+            <input
+              type="tel"
+              id="phonenumber"
+              placeholder="12345 67890"
+              className="form-style w-full "
+              maxLength={12}
+              {...register("phoneNo", {
+                required: "Please enter your Phone Number.",
+                pattern: {
+                  value: /^[0-9]{10,12}$/,
+                  message: "Invalid Phone Number",
+                },
+              })}
+            />
 
             {errors.phoneNo && (
               <span className="text-xs text-yellow-100">
@@ -214,14 +228,20 @@ const ContactUsForm = () => {
 
       {/* Message */}
       <div className="flex flex-col gap-2">
-        <label className="label-style">Message</label>
+        <label className="label-style">
+          Message <sup className="text-pink-200">*</sup>
+        </label>
 
         <textarea
-          rows={7}
-          placeholder="Enter your message"
-          className="form-style"
+          rows={6}
+          placeholder="Enter your message..."
+          className="form-style resize-none"
           {...register("message", {
             required: "Message is required",
+            minLength: {
+              value: 10,
+              message: "Message should be at least 10 characters",
+            },
           })}
         />
 
@@ -232,11 +252,11 @@ const ContactUsForm = () => {
         )}
       </div>
 
-      {/* Button */}
+      {/* Submit Button */}
       <button
         type="submit"
         disabled={loading}
-        className={`rounded-md bg-yellow-50 px-6 py-3 text-black font-semibold transition-all duration-300 ${
+        className={`w-full rounded-md bg-yellow-50 px-6 py-3 text-base font-semibold text-richblack-900 transition-all duration-300 sm:w-auto sm:self-center lg:self-start ${
           loading
             ? "cursor-not-allowed opacity-60"
             : "hover:scale-95 hover:shadow-lg"
@@ -249,3 +269,5 @@ const ContactUsForm = () => {
 };
 
 export default ContactUsForm;
+
+    

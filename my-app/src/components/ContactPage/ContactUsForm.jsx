@@ -4,7 +4,7 @@ import Select from "react-select";
 import toast from "react-hot-toast";
 
 import CountryCode from "../../data/countrycode.json";
-import { apiConnector } from "../../services/apiconnector";
+import { apiConnector } from "../../services/apiConnector";
 import { contactusEndpoint } from "../../services/api";
 
 const countryOptions = CountryCode.map((country) => ({

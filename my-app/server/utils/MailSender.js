@@ -3,17 +3,23 @@ require("dotenv").config();
 
 const MailSender = async (email, title, body) => {
   try {
-    console.log("Creating transporter");
-    const transporter = nodemailer.createTransport({
-      host: process.env.MAIL_HOST,
-      port: 587,
-      secure: false,
-      auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS,
-      },
-    });
-    console.log("Before sendMail");
+    console.log("MAIL_HOST:", process.env.MAIL_HOST);
+console.log("MAIL_USER:", process.env.MAIL_USER);
+console.log("MAIL_PASS exists:", !!process.env.MAIL_PASS);
+
+const transporter = nodemailer.createTransport({
+  host: process.env.MAIL_HOST,
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASS,
+  },
+});
+
+console.log("Verifying SMTP...");
+await transporter.verify();
+console.log("SMTP Verified");
 
     const info = await transporter.sendMail({
       from: "StudyNotion - by Sanjeev",

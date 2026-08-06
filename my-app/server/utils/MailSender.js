@@ -1,8 +1,8 @@
-const nodemailr=require("nodemailer");
+const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-const MailSender=async (email,title,body)=>{
-  try{
+const MailSender = async (email, title, body) => {
+  try {
     const transporter = nodemailer.createTransport({
       host: process.env.MAIL_HOST,
       port: 587,
@@ -13,21 +13,19 @@ const MailSender=async (email,title,body)=>{
       },
     });
 
-    const info=await tranporter.sendMail({
-      from:"StudyNotion - by sanjeev",
-      to:email,
-      subject:`${title}`,
-      html:`<div>${body}</div>`,
+    const info = await transporter.sendMail({
+      from: "StudyNotion - by Sanjeev",
+      to: email,
+      subject: title,
+      html: `<div>${body}</div>`,
+    });
 
-
-    })
     console.log(info);
     return info;
-
-  }catch(e){
-    console.log(e);
+  } catch (e) {
+    console.error(e);
     throw e;
   }
-}
+};
 
-module.exports=MailSender;
+module.exports = MailSender;

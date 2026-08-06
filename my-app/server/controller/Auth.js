@@ -8,7 +8,9 @@ require("dotenv").config();
 
 //sendotp 
 exports.sendOtp=async (req,res)=>{
+  console.log("=== SEND OTP API HIT ===");
   try{
+    
     const{email}=req.body;
     //check if user already exist
     const checkUserPresent=await User.findOne({email});
@@ -18,9 +20,6 @@ exports.sendOtp=async (req,res)=>{
         message:"User already exist",
       })
     }
-
-
-
     // Bad approach for geting otp use library for otp using loop is wrong approach
 
     var otp=otpgenerator.generate(6,{

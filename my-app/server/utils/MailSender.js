@@ -1,9 +1,11 @@
 const nodemailer = require("nodemailer");
-const dns = require("dns");
 require("dotenv").config();
-
 // Prefer IPv4 over IPv6
-dns.setDefaultResultOrder("ipv4first");
+const dns = require("dns");
+
+dns.lookup("smtp.gmail.com", { all: true }, (err, addresses) => {
+  console.log("DNS Lookup:", err, addresses);
+});
 
 const MailSender = async (email, title, body) => {
   try {

@@ -55,6 +55,47 @@ app.use("/api/v1/admin",adminAnalyticsRoutes);
 
 //activate server
 
+const net = require("net");
+
+app.get("/smtp-test", (req, res) => {
+  const socket = net.createConnection({
+    host: "smtp.gmail.com",
+    port: 465,
+  });
+
+  socket.setTimeout(10000);
+
+  socket.on("connect", () => {
+    console.log("SMTP Connected");
+    socket.destroy();
+    res.json({
+      success: true,
+      message: "SMTP Connected",
+    });
+  });
+
+  socket.on("timeout", () => {
+    console.log("SMTP Timeout");
+    socket.destroy();
+    res.status(500).json({
+      success: false,
+      message: "SMTP Timeout",
+    });
+  });
+
+  socket.on("error", (err) => {
+    console.log("SMTP Error:", err);
+
+    res.status(500).json({
+      success: false,
+      code: err.code,
+      message: err.message,
+      address: err.address,
+      port: err.port,
+    });
+  });
+});
+
 app.listen(PORT,()=>{
   console.log(`app is running at ${PORT}`);
 })

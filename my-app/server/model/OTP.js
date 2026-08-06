@@ -24,8 +24,11 @@ const OTPSchema=new mongoose.Schema({
 
 async function sendVerificationOnEmail(email,otp){
   try{
+    
+    console.log("Before MailSender");
 
     const body = emailVerificationTemplate("User", otp);
+    console.log("just Before MailSender");
     const mailResponse= await MailSender(
       email,
       "Verification Email",

@@ -8,9 +8,9 @@ console.log("MAIL_USER:", process.env.MAIL_USER);
 console.log("MAIL_PASS exists:", !!process.env.MAIL_PASS);
 
 const transporter = nodemailer.createTransport({
-  host: process.env.MAIL_HOST,
-  port: 587,
-  secure: false,
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASS,

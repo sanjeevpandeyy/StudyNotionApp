@@ -1,75 +1,91 @@
-const OTP=require("../model/OTP");
-const User=require("../model/User");
-const otpgenerator=require("otp-generator");
-const bcrypt=require("bcrypt");
-const Profile=require("../model/Profile");
-const JWT=require("jsonwebtoken");
+const OTP = require("../model/OTP");
+const User = require("../model/User");
+const otpgenerator = require("otp-generator");
+const bcrypt = require("bcrypt");
+const Profile = require("../model/Profile");
+const JWT = require("jsonwebtoken");
 require("dotenv").config();
 
+
 //sendotp
-exports.sendOtp=async (req,res)=>{
-console.log("=== SEND OTP API HIT ===");
-try{
+exports.sendOtp = async (req, res) => {
+  console.log("=== SEND OTP API HIT ===");
 
-const{email}=req.body;
+  try {
 
-//check if user already exist
-const checkUserPresent=await User.findOne({email});
+    const { email } = req.body;
 
-if(checkUserPresent){
-  return res.status(401).json({
-    success:false,
-    message:"User already exist",
-  })
-}
 
-// Bad approach for getting otp use library for otp using loop is wrong approach
+    //check if user already exist
+    const checkUserPresent = await User.findOne({ email });
 
-var otp=otpgenerator.generate(6,{
-  upperCaseAlphabets: false,
-  lowerCaseAlphabets: false, 
-  specialChars: false,
-})
 
-//check unique otp or not
-let result =await OTP.findOne({OTP:otp})
+    if (checkUserPresent) {
+      return res.status(401).json({
+        success: false,
+        message: "User already exist",
+      });
+    }
 
-while(result){
-  otp=otpgenerator.generate(6,{
-    upperCaseAlphabets: false,
-    lowerCaseAlphabets: false, 
-    specialChars: false,
-  })
 
-  result =await OTP.findOne({OTP:otp})
-}
+    // Bad approach for getting otp use library for otp using loop is wrong approach
 
-console.log("OTP->",otp);
+    var otp = otpgenerator.generate(6, {
+      upperCaseAlphabets: false,
+      lowerCaseAlphabets: false,
+      specialChars: false,
+    });
 
-const otpPayload={email,OTP: otp};
 
-//create and entry in otp
-// pre save hook will send email
-const otpBody=await OTP.create(otpPayload);
+    //check unique otp or not
+    let result = await OTP.findOne({ OTP: otp });
 
-//return success response
-return res.status(200).json({
-  success:true,
-  message:"OTP sent Successfully",
-})
 
-}catch(e){
-console.log(e);
+    while (result) {
+      otp = otpgenerator.generate(6, {
+        upperCaseAlphabets: false,
+        lowerCaseAlphabets: false,
+        specialChars: false,
+      });
 
-return res.status(500).json({
-  success:false,
-  message:e.message,
-})
+      result = await OTP.findOne({ OTP: otp });
+    }
 
-}
 
-}
+    console.log("OTP->", otp);
 
+
+    const otpPayload = {
+      email,
+      OTP: otp
+    };
+
+
+    //create and entry in otp
+    //pre save hook will send email
+    const otpBody = await OTP.create(otpPayload);
+
+
+    //return success response
+    return res.status(200).json({
+      success: true,
+      message: "OTP sent Successfully",
+    });
+
+
+  } catch (e) {
+
+    console.log(e);
+
+
+    return res.status(500).json({
+      success: false,
+      message: e.message,
+    });
+
+  }
+
+};
 
 
 exports.signUp=async (req,res)=>{

@@ -3,6 +3,7 @@ const MailSender = require("../utils/MailSender");
 const emailVerificationTemplate = require("../mail/tamplates/emailVerificationTemplate");
 
 const OTPSchema = new mongoose.Schema({
+
   createdAt: {
     type: Date,
     default: Date.now,
@@ -18,14 +19,18 @@ const OTPSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
 });
 
 
 // ============================================
 // SEND VERIFICATION EMAIL
 // ============================================
+
 async function sendVerificationOnEmail(email, otp) {
+
   try {
+
     console.log("Before MailSender");
 
     const body = emailVerificationTemplate("User", otp);
@@ -38,9 +43,13 @@ async function sendVerificationOnEmail(email, otp) {
       body
     );
 
-    console.log("Mail sent successfully:", mailResponse);
+    console.log(
+      "Mail sent successfully:",
+      mailResponse
+    );
 
   } catch (e) {
+
     console.error(
       "Error occurred while sending mail:",
       e
@@ -48,17 +57,21 @@ async function sendVerificationOnEmail(email, otp) {
 
     throw e;
   }
+
 }
 
 
 // ============================================
 // PRE SAVE HOOK
 // ============================================
+
 OTPSchema.pre("save", async function () {
+
   await sendVerificationOnEmail(
     this.email,
     this.OTP
   );
+
 });
 
 

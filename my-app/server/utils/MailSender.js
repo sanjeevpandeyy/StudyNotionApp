@@ -1,41 +1,50 @@
-const { Resend } = require("resend");
+const brevo = require("@getbrevo/brevo");
 require("dotenv").config();
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const MailSender = async (email, title, body) => {
-try {
+  try {
+    console.log("MAIL_TO:", email);
+    console.log(
+      "BREVO_API_KEY exists:",
+      !!process.env.BREVO_API_KEY
+    );
 
-console.log("MAIL_TO:", email);
+    const apiInstance = new brevo.TransactionalEmailsApi();
 
-console.log(
-"RESEND_API_KEY exists:",
-!!process.env.RESEND_API_KEY
-);
+    apiInstance.setApiKey(
+      brevo.TransactionalEmailsApiApiKeys.apiKey,
+      process.env.BREVO_API_KEY
+    );
 
-const { data, error } = await resend.emails.send({
-  from: process.env.EMAIL_FROM,
-  to: [email],
-  subject: title,
-  html: `<div>${body}</div>`,
-});
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
 
-if (error) {
-  console.error("Resend Error:", error);
-  throw new Error(error.message);
-}
+    sendSmtpEmail.subject = title;
 
-console.log("Mail sent successfully");
-console.log(data);
+    sendSmtpEmail.htmlContent = `<div>${body}</div>`;
 
-return data;
+    sendSmtpEmail.sender = {
+      name: process.env.MAIL_FROM_NAME,
+      email: process.env.EMAIL_FROM,
+    };
 
-} catch (error) {
+    sendSmtpEmail.to = [
+      {
+        email: email,
+      },
+    ];
 
-console.error("Mail Error:", error);
-throw error;
+    const data = await apiInstance.sendTransacEmail(
+      sendSmtpEmail
+    );
 
-}
+    console.log("Mail sent successfully");
+    console.log(data);
+
+    return data;
+  } catch (error) {
+    console.error("Mail Error:", error);
+    throw error;
+  }
 };
 
 module.exports = MailSender;

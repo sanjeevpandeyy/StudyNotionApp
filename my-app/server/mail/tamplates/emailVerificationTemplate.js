@@ -1,81 +1,81 @@
-
 require("dotenv").config();
 
 const emailVerificationTemplate = (name, otp) => {
-  return `
-  <!DOCTYPE html>
-  <html>
-  <body style="margin:0;background:#f5f7fa;font-family:Arial,sans-serif;">
+return `
 
-      <table width="100%" cellpadding="40">
-          <tr>
-              <td align="center">
+  <table width="100%" cellpadding="40">
+      <tr>
+          <td align="center">
 
-                  <table width="600" style="background:white;border-radius:12px;overflow:hidden;">
+              <table width="600" style="background:white;border-radius:12px;overflow:hidden;">
 
-                      <tr>
-                          <td align="center" style="background:#0F172A;padding:30px;">
-                              <img src="https://via.placeholder.com/140x45?text=StudyNotion" loading="lazy" >
-                              <h2 style="color:white;">StudyNotion</h2>
-                          </td>
-                      </tr>
+                  <tr>
+                      <td align="center" style="background:#0F172A;padding:30px;">
 
-                      <tr>
-                          <td style="padding:40px;">
+                          <h2 style="color:white;">
+                              StudyNotion
+                          </h2>
 
-                              <h2>Dear ${name},</h2>
+                      </td>
+                  </tr>
 
-                              <p>
-                                  Thank you for registering with StudyNotion.
-                              </p>
+                  <tr>
+                      <td style="padding:40px;">
 
-                              <p>
-                                  Use the OTP below to verify your email address.
-                              </p>
+                          <h2>Dear ${name},</h2>
 
-                              <div style="text-align:center;margin:35px 0;">
+                          <p>
+                              Thank you for registering with StudyNotion.
+                          </p>
 
-                                  <span style="font-size:34px;
-                                  letter-spacing:8px;
-                                  background:#EFF6FF;
-                                  padding:18px 35px;
-                                  border-radius:8px;
-                                  color:#2563EB;
-                                  font-weight:bold;">
+                          <p>
+                              Use the OTP below to verify your email address.
+                          </p>
 
-                                  ${otp}
+                          <div style="text-align:center;margin:35px 0;">
 
-                                  </span>
+                              <span style="
+                              font-size:34px;
+                              letter-spacing:8px;
+                              background:#EFF6FF;
+                              padding:18px 35px;
+                              border-radius:8px;
+                              color:#2563EB;
+                              font-weight:bold;
+                              ">
 
-                              </div>
+                              ${otp}
 
-                              <p>
-                                  This OTP will expire in <strong>5 minutes</strong>.
-                              </p>
+                              </span>
 
-                              <p style="color:red;">
-                                  Never share this OTP with anyone.
-                              </p>
+                          </div>
 
-                          </td>
-                      </tr>
+                          <p>
+                              This OTP will expire in <strong>5 minutes</strong>.
+                          </p>
 
-                      <tr>
-                          <td style="background:#F8FAFC;padding:25px;text-align:center;">
-                              ${process.env.MAIL_FROM_NAME}<br>
-                              ${process.env.MAIL_USER}
-                          </td>
-                      </tr>
+                          <p style="color:red;">
+                              Never share this OTP with anyone.
+                          </p>
 
-                  </table>
+                      </td>
+                  </tr>
 
-              </td>
-          </tr>
-      </table>
+                  <tr>
+                      <td style="background:#F8FAFC;padding:25px;text-align:center;">
 
-  </body>
-  </html>
-  `;
-};
+                          ${process.env.EMAIL_FROM}
+
+                      </td>
+                  </tr>
+
+              </table>
+
+          </td>
+      </tr>
+  </table>
+
+`;
+}
 
 module.exports = emailVerificationTemplate;

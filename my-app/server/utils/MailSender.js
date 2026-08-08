@@ -1,43 +1,41 @@
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 require("dotenv").config();
 
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 const MailSender = async (email, title, body) => {
-  try {
-    console.log("MAIL_USER:", process.env.MAIL_USER);
-    console.log("MAIL_PASS exists:", !!process.env.MAIL_PASS);
+try {
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
+console.log("MAIL_TO:", email);
 
-      auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS,
-      },
+console.log(
+"RESEND_API_KEY exists:",
+!!process.env.RESEND_API_KEY
+);
 
-      connectionTimeout: 10000,
-      greetingTimeout: 10000,
-      socketTimeout: 10000,
-    });
+const { data, error } = await resend.emails.send({
+  from: process.env.EMAIL_FROM,
+  to: [email],
+  subject: title,
+  html: `<div>${body}</div>`,
+});
 
-    console.log("Verifying SMTP...");
-    await transporter.verify();
-    console.log("SMTP Verified");
+if (error) {
+  console.error("Resend Error:", error);
+  throw new Error(error.message);
+}
 
-    const info = await transporter.sendMail({
-      from: `"StudyNotion - by Sanjeev" <${process.env.MAIL_USER}>`,
-      to: email,
-      subject: title,
-      html: `<div>${body}</div>`,
-    });
+console.log("Mail sent successfully");
+console.log(data);
 
-    console.log("Mail sent successfully");
-    console.log(info);
+return data;
 
-    return info;
-  } catch (error) {
-    console.error("Mail Error:", error);
-    throw error;
-  }
+} catch (error) {
+
+console.error("Mail Error:", error);
+throw error;
+
+}
 };
 
 module.exports = MailSender;
